@@ -1,4 +1,4 @@
-import './app.css'
+import './App.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Register from '../src/pages/Register'
 import Login from "./pages/Login"
