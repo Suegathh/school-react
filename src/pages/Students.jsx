@@ -16,16 +16,16 @@ const Students = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem("access")}`
         }
-    }
+    };
 
     useEffect(() => {
-        axios.get(base_url + '/student/', config)
+        axios.get(`${base_url}/students/`, config)
             .then((res) => {
                 console.log(res.data);
                 setStudents(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.error('Error fetching students:', err);
             });
     }, []);
 
@@ -38,13 +38,13 @@ const Students = () => {
             address,
             phone
         };
-        console.log('Submitting:', newStudent); 
-        axios.post(base_url + '/student/', newStudent, config)
+        console.log('Submitting:', newStudent);
+
+        axios.post(`${base_url}/students/`, newStudent, config)
             .then((res) => {
                 console.log('Response:', res.data);
-                alert('student added')
+                alert('Student added successfully!');
                 setStudents([...students, res.data]);
-                // Clear form inputs
                 setFirstName('');
                 setLastName('');
                 setAdmNumber('');
@@ -52,7 +52,8 @@ const Students = () => {
                 setPhone('');
             })
             .catch((err) => {
-                console.log('Error:', err.response ? err.response.data : err.message);
+                alert(`Error: ${err.response?.data?.detail || "Something went wrong!"}`);
+                console.error('Error:', err);
             });
     };
 
@@ -76,9 +77,7 @@ const Students = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Add New Student</h5>
-                            <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleSubmit}>
@@ -113,6 +112,6 @@ const Students = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Students;
